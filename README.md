@@ -1,4 +1,3 @@
-# iEDA-iPL
 ## iPL源码分析
 流程：全局布局--->合法化--->详细布局
 
@@ -13,6 +12,34 @@
 ```bash
 ./iEDA -script ./script/iPL_script/run_iPL.tcl 
 ```
+#### tcl脚本解析
+##### run_iPL.tcl
+- init flow config
+  - - flow_init -config ./iEDA_config/flow_config.json
+- read db config
+  - - db_init -config ./iEDA_config/db_default_config.json
+- reset data path
+  - - source ./script/DB_script/db_path_setting.tcl
+- reset lib
+  - - source ./script/DB_script/db_init_lib.tcl
+- reset sdc
+  - - source ./script/DB_script/db_init_sdc.tcl
+- read lef
+  - - source ./script/DB_script/db_init_lef.tcl
+- read def
+  - - def_init -path ./result/iTO_fix_fanout_result.def
+- run Placer
+  - - run_placer -config ./iEDA_config/pl_default_config.json
+- save def
+  - - def_save -path ./result/iPL_result.def
+- save netlist
+  - - netlist_save -path ./result/iPL_result.v -exclude_cell_names {}
+- report
+  - - report_db -path "./result/report/pl_db.rpt"
+- Exit
+  - - flow_exit
+
+
 ### 参数配置
 参考iEDA_config/pl_default_config.json: `./scripts/design/sky130_gcd/iEDA_config/pl_default_config.json`
 
